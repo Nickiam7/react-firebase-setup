@@ -2,14 +2,11 @@ import { useState, useEffect } from 'react'
 import { auth, firestore } from '../config/firebase/config'
 import { useAuthContext } from './useAuthContext'
 
-import { useNavigation } from '@react-navigation/native'
-
 export const useSignup = () => {
   const [isCancelled, setIsCancelled] = useState(false)
   const [error, setError] = useState(null)
   const [isPending, setIsPending] = useState(false)
   const { dispatch } = useAuthContext()
-  const navigation = useNavigation()
 
   const signup = async (email, password, displayName) => {
     setError(null)
@@ -26,8 +23,6 @@ export const useSignup = () => {
       await firestore.collection('users').doc(res.user.uid).set({
         displayName,
       })
-
-      navigation.navigate('Home')
 
       dispatch({ type: 'LOGIN', payload: res.user })
 
